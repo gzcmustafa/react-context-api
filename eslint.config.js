@@ -37,6 +37,7 @@ export default [
         'warn',
         { varsIgnorePattern: '^use' }, // use ile başlayan değişkenleri göz ardı et
       ],
+      'react/prop-types': 'off', // PropTypes kuralını kapat
     },
   },
 ];
