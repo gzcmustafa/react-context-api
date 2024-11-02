@@ -1,6 +1,6 @@
 import Employee from "./Employee";
-import { useContext } from "react";
-import { EmployeeContext } from "../context/EmployeeContext";
+import React, { useContext } from "react";
+import { EmployeeContext } from "../contexts/EmployeeContext";
 
 const EmployeeList = () => {
   const { employees } = useContext(EmployeeContext);
@@ -23,4 +23,4 @@ const EmployeeList = () => {
   );
 };
 
-export default Employee;
+export default EmployeeList;

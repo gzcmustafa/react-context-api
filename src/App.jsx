@@ -1,6 +1,6 @@
 import React from "react";
 import EmployeeList from "./components/EmployeeList";
-import EmployeeContextProvider from "./context/EmployeeContext";
+import EmployeeContextProvider from "./contexts/EmployeeContext";
 
 function App() {
   return (
