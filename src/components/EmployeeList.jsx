@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { EmployeeContext } from "../contexts/EmployeeContext";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddForm from "./AddForm";
 
 const EmployeeList = () => {
@@ -12,6 +12,10 @@ const EmployeeList = () => {
   const handleShow = () => setShow(true);
 
   const { employees } = useContext(EmployeeContext);
+
+  useEffect(() => {
+    handleClose();
+  }, [employees]);
 
   return (
     <>
@@ -46,7 +50,11 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-          <Employee employees={employees} />
+          {employees.map((employee) => (
+            <tr key={employee.id}>
+              <Employee employee={employee} />
+            </tr>
+          ))}
         </tbody>
       </table>
       <Modal show={show} onHide={handleClose}>
