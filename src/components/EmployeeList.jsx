@@ -1,7 +1,7 @@
 import Employee from "./Employee";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { EmployeeContext } from "../contexts/EmployeeContext";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useState, useEffect } from "react";
 import AddForm from "./AddForm";
@@ -13,8 +13,22 @@ const EmployeeList = () => {
 
   const { employees } = useContext(EmployeeContext);
 
+  const [showAlert, setShowAlert] = useState(false);
+  const handleShowAlert = () => {
+    setShowAlert(true);
+    setTimeout(() => {
+      setShowAlert(false);
+    }, 2000);
+  };
+
+  const prevEmployee = useRef(employees.length);
+
   useEffect(() => {
-    handleClose();
+    if (prevEmployee.current !== employees.length) {
+      handleClose();
+      handleShowAlert();
+    }
+    prevEmployee.current = employees.length;
   }, [employees]);
 
   return (
@@ -39,6 +53,9 @@ const EmployeeList = () => {
           </div>
         </div>
       </div>
+      <Alert show={showAlert} variant="success" dismissible>
+        Aww yeah, you successfully read this important alert message
+      </Alert>
       <table className="table table-striped table-hover">
         <thead>
           <tr>
@@ -50,11 +67,13 @@ const EmployeeList = () => {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <Employee employee={employee} />
-            </tr>
-          ))}
+          {employees
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((employee) => (
+              <tr key={employee.id}>
+                <Employee employee={employee} />
+              </tr>
+            ))}
         </tbody>
       </table>
       <Modal show={show} onHide={handleClose}>
@@ -62,7 +81,7 @@ const EmployeeList = () => {
           <Modal.Title>Add Employee</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddForm />
+          <AddForm showAlert={showAlert} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
